@@ -1,0 +1,44 @@
+
+
+CREATE COMPUTE MODULE Lab02Flow_Route_Request
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		--CALL CopyMessageHeaders();
+		SET OutputRoot.Properties.CodedCharSetId    = 1208;
+		SET OutputRoot.Properties.Encoding    = 546;
+		
+		CALL CopyEntireMessage();
+		
+		SET Environment.ReqIdent = CAST(InputLocalEnvironment.Destination.HTTP.RequestIdentifier AS CHAR);
+		
+		DECLARE LABEL CHAR;
+		SET LABEL = InputLocalEnvironment.HTTP.Input.RequestLine.RequestURI; -- /lab02/add?asdasda
+		SET LABEL = SUBSTRING(LABEL AFTER '/lab02/'); --add?asdasda 
+		
+		IF CONTAINS(LABEL, '/') THEN
+			SET LABEL = SUBSTRING(LABEL BEFORE '/'); -- add?asdasda
+		END IF;	
+	 
+	 	IF CONTAINS(LABEL, '?') THEN
+			SET LABEL = SUBSTRING(LABEL BEFORE '?'); -- add
+	 	END IF;
+		
+		--Route to Label
+		SET OutputLocalEnvironment.Destination.RouterList.DestinationData[1].labelName = UPPER(LABEL);
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;

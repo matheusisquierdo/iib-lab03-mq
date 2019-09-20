@@ -1,0 +1,37 @@
+
+
+CREATE COMPUTE MODULE Lab02Flow_Prepare_Request_Add
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE ns NAMESPACE 'http://tempuri.org/';
+		
+		-- CALL CopyMessageHeaders();
+		-- CALL CopyEntireMessage();
+		DECLARE NUM1 INT;
+		DECLARE NUM2 INT;
+		
+		-- Resgatar os numeros
+		SET NUM1 = InputRoot.JSON.Data.num1;
+		SET NUM2 = InputRoot.JSON.Data.num2;
+		
+		-- Monta Envelope
+		SET OutputRoot.XMLNSC.ns:Add.ns:intA = NUM1;
+		SET OutputRoot.XMLNSC.ns:Add.ns:intB = NUM2;
+		
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;

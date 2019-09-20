@@ -1,0 +1,39 @@
+
+
+CREATE COMPUTE MODULE Lab02DivisaoMQInput_PrepareResponse_Divisao
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE ns NAMESPACE 'http://tempuri.org/';
+
+		
+		-- CALL CopyMessageHeaders();
+		-- CALL CopyEntireMessage();
+		DECLARE RESULTADO INT;
+		
+		SET RESULTADO = InputRoot.XMLNSC.ns:DivideResponse.ns:DivideResult;
+		
+		-- Prepara JSON
+		SET OutputRoot.JSON.Data.resultado = RESULTADO;
+		SET OutputLocalEnvironment.Destination.HTTP.RequestIdentifier = CAST(Environment.ReqIdent AS BLOB);
+		
+		PROPAGATE TO TERMINAL 'out1';
+		
+		
+		SET OutputRoot.MQMD = Environment.MQMD;
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;

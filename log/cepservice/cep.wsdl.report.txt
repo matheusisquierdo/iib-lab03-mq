@@ -1,0 +1,41 @@
+
+
+Importing file: \site\webservice.php\ws\cep.wsdl
+
+
+The following is a list of WS-I warning messages found when importing:
+XSD: Attribute reference 'http://schemas.xmlsoap.org/soap/encoding/#arrayType' is unresolved, Line: 1, Column: 1
+XSD: Type reference 'http://schemas.xmlsoap.org/soap/encoding/#Array' is unresolved, Line: 1, Column: 1
+
+
+The WSDL import will proceed with bindings CEPServiceBinding.
+Creating wsdl schema document for RemoteFiles/cep.xsd.
+Parsing wsdl binding {urn:CEPService}CEPServiceBinding.
+Parsing wsdl binding input obterVersao.
+Parsing wsdl binding output obterVersao.
+Parsing wsdl binding input obterLogradouro.
+Parsing wsdl binding output obterLogradouro.
+Parsing wsdl binding input obterLogradouroAuth.
+Parsing wsdl binding output obterLogradouroAuth.
+Parsing wsdl binding input obterCEP.
+Parsing wsdl binding output obterCEP.
+Parsing wsdl binding input obterCEPAuth.
+Parsing wsdl binding output obterCEPAuth.
+Processing rpc style for operation obterVersao.
+Processing rpc style for operation obterLogradouro.
+Processing rpc style for operation obterLogradouroAuth.
+Processing rpc style for operation obterCEP.
+Processing rpc style for operation obterCEPAuth.
+Populating WSDL schema RemoteFiles/cep.xsd.
+Creating file RemoteFiles/cep.xsd in the workspace.
+Creating file RemoteFiles/cep_InlineSchema1.xsd in the workspace.
+Creating file RemoteFiles/cep1.xsd in the workspace.
+Copying source WSDL cep?WSDL to cep.wsdl.
+
+Elapsed time processing this message definition file: 4.816 seconds
+Number of warnings for this message definition file: 0
+
+
+Number of files processed: 1
+
+
